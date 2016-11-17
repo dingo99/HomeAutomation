@@ -1,0 +1,22 @@
+{
+  "name": "nodebootstraper",
+  "version": "0.0.2",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "http": "0.0.0",
+    "jade": "^1.11.0",
+    "method-override": "^2.3.6",
+    "morgan": "^1.7.0",
+    "onoff": "^1.1.1",
+    "path": "^0.12.7",
+    "routes": "^2.1.0",
+    "serve-favicon": "^2.3.0",
+    "stylus": "^0.53.0"
+  },
+  "engines": {
+    "node": "0.10.30",
+    "npm": "1.4.x"
+  }
+}

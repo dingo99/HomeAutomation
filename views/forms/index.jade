@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  .panel.panel-default
+    .panel-heading
+      H3.panel-title Temp Forms
+    .panel-body
+      form(action="/setHeat")
+        input(type="text" value=#{status.CurTemp})

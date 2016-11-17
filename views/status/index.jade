@@ -1,0 +1,80 @@
+extends ../layout
+
+block content
+  H2 Average Temp: #{System.AvgTemp}
+  .row
+    each Zone in System.Zones
+      .col-xs-12.col-md-6
+        .panel.panel-default
+          .panel-heading
+            H3.panel-title Zone #{Zone.ZoneName} Status
+          .panel-body
+            ul
+              li Current: #{Zone.CurTemp}
+              li Hi: #{Zone.TempHi}
+              li Low: #{Zone.TempLow}
+              li Lumens:   #{Zone.Light}
+              li Humidity: #{Zone.Humidity}
+  
+  .row(ng-controller="mainController")#mainController
+    .col-xs-12.col-md-4
+      .panel.panel-default
+        .panel-heading
+          H3.panel-title Current Conditions
+        .panel-body
+          ul
+            li
+              span(style="margin-right:10px;") {{weatherData.weather}} 
+              a(ng-Href="{{weatherData.ob_url}}" target="_blank")
+                 br
+                 img(ng-Src="{{weatherData.icon_url}}")
+            li Temp: {{weatherData.temp_f}}
+            li Precip(1hr): {{weatherData.precip_1hr_in}} in.
+            li Visibility: {{weatherData.visibility_mi}}
+            li Wind Dir: {{weatherData.wind_dir}}
+            li Wind Degrees: {{weatherData.wind_degrees}}
+            li Wind MPH: {{weatherData.wind_mph}}
+            li Conditions {{weatherData.weather}}
+
+    .col-xs-12.col-md-4
+      .panel.panel-default
+        .panel-heading
+          H3.panel-title Boiler Status
+        .panel-body
+          ul
+            li Boiler On:   #{System.Boiler.BoilerOn}
+            li Status Time: #{System.Boiler.StatusTime}
+            li Boiler Mode: #{System.Boiler.BoilerMode}
+
+    .col-xs-12.col-md-4
+      .panel.panel-default
+        .panel-heading
+          H3.panel-title Temp Links
+        .panel-body
+          a.btn.btn-danger(href='/on') Turn On
+          a.btn.btn-success.col-xs-offset-2(href='/off') Turn Off
+          br
+          br
+          br
+          a.btn.btn-primary(href='/BoilerModeProduction') Prod Mode
+          a.btn.btn-primary.col-xs-offset-2(href='/BoilerModeDebug') Debug Mode
+          br
+          
+
+  .row
+    .col-xs-12.col-md-4
+      .panel.panel-default
+        .panel-heading
+          H3.panel-title Temp Forms
+        .panel-body
+          form(action="/setHeat" method="post")
+            .form-group.col-xs-12
+              label.col-xs-6.col-md-6 Low Temp
+              .col-xs-6.col-md-6
+                input.form-control(type="text" id="tempLow" name="tempLow" placeholder="Low Temp")
+            .form-group.col-xs-12
+              label.col-xs-6.col-md-6 High Temp
+              .col-xs-6.col-md-6
+                input.form-control.col-xs-4.col-md-4(type="text" id="tempHi" name="tempHi" placeholder="High Temp")
+            .form-group.col-xs-12
+              input.form-control(type="submit" id="Submit")

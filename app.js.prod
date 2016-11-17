@@ -1,0 +1,227 @@
+// Setup relay and indicator light furnace.
+var GPIO = require('onoff').Gpio,
+    led = new GPIO(20, 'out');
+    relay = new GPIO(21, 'out');
+    led.writeSync(0);
+    relay.writeSync(1);
+
+// Setup Util Functions
+function addMinutes(date, minutes) {
+    return new Date(date.getTime() + minutes*60000);
+}
+
+
+// Setup state objects for system
+var Boiler = { "BoilerOn": false, "StatusTime": addMinutes(new Date(), -100), BoilerMode: "Production" };
+var System = { "AvgTemp": 68, "Boiler": Boiler, "DebugLevel": 3, "Zones": [{ "CurTemp": 68, "TempHi": 40, "TempLow": 32, "Light": 10, "Humidity": 33, "CallHeat": false, "ZoneName": "Upstairs" }, { "CurTemp": 68, "TempHi": 40, "TempLow": 32, "Light": 10, "Humidity": 33, "CallHeat": false, "ZoneName": "Downstairs" }] };
+debugLog(System.Boiler.BoilerMode, 1)
+// Setup expressJS
+/**
+ * Module dependencies.
+ */
+
+var express = require('express')
+  , routes = require('./routes')
+  , http = require('http')
+  , path = require('path')
+  , bodyParser = require('body-parser')
+  , favicon = require('serve-favicon')
+  , logger = require('morgan')
+  , methodOverride = require('method-override');
+
+var app = express();
+
+app.set('port', process.env.PORT || 80);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.use(favicon(__dirname + '/public/images/favicon.png'));
+app.use(logger('dev'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(methodOverride('_method'));
+app.use(require('stylus').middleware(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, 'public')));
+
+if (app.get('env') == 'development') {
+        app.locals.pretty = true;
+}
+
+// Setup Routes
+app.get('/', routes.index);
+app.get('/about', routes.about);
+
+/*
+custom status page from other project
+*/
+
+// Posting endpoint for sensor data
+app.post('/data',function(req,res){
+  debugLog("Zone: " + req.body.zone + " | data recieved: " + req.body.tempf + " | Humidity: " + req.body.humidity, 1);
+
+  // Read sensor data
+  if(req.body.tempf < 50 || req.body.tempf > 90)
+  {
+      debugLog("Temp from sensor out of range: " + req.body.tempf, 2);
+      res.end("Temp out of range");
+  }
+  else if(req.body.tempf > 0)
+  {
+    System.Zones[req.body.zone].CurTemp = req.body.tempf;
+  }
+  else
+  {
+    res.end("yes");
+  }
+
+//  debugLog("Zone: " + req.body.zone+ " | data recieved: " + req.body.tempf + " | Humidity: " + req.body.humidity, 1);
+
+  System.Zones[req.body.zone].Humidity=req.body.humidity;
+  System.Zones[req.body.zone].Light=req.body.light;
+  SetAverageTemp();
+
+  // Debug incoming sensor data
+
+  // Conditions for when to call for heat
+  // if avg temp < temp low && Boiler off  ---- off
+  // OR
+  // avg temp < temp hi && Boiler On
+  // turn on
+  debugLog("avgTmp: "  + System.AvgTemp +  " < zoneHi: " + System.Zones[req.body.zone].TempHi + " && !boiler status: " + !System.Boiler.BoilerOn, 2);
+  if((System.AvgTemp < System.Zones[req.body.zone].TempHi) && !System.Boiler.BoilerOn)
+  {
+    UpdateBoilerStatus(true);
+    debugLog("calling for heat On: " + System.Boiler.BoilerOn, 2);
+  }
+  else if((System.AvgTemp > System.Zones[req.body.zone].TempHi) && System.Boiler.BoilerOn)
+  {
+    debugLog("avgTmp: "  + System.AvgTemp +  " > zoneHi: " + System.Zones[req.body.zone].TempHi + " && boiler status: " + System.Boiler.BoilerOn, 2);
+    UpdateBoilerStatus(false);
+    debugLog("calling for heat Off: " + System.Boiler.BoilerOn, 2);
+  }
+  else
+  {
+    UpdateBoilerStatus(false);
+    debugLog("calling for heat ELSE Off: " + System.Boiler.BoilerOn, 2);
+  }
+
+  updateRelay(System.Boiler.BoilerOn, false);
+
+//  res.end("yes");
+});
+
+
+app.get('/on',function(req,res){
+//  res.sendfile("indexon.html");
+  System.Boiler.BoilerOn = true;
+  UpdateBoilerStatus(true, true);
+  updateRelay(System.Boiler.BoilerOn);
+  debugLog("Turned Relay on" + System.Boiler.BoilerOn, 2);
+  res.render('status', {System: System});
+});
+
+
+app.get('/off',function(req,res){
+//  res.sendfile("indexoff.html");
+  System.Boiler.BoilerOn = false;
+  UpdateBoilerStatus(false, true);
+  updateRelay(System.Boiler.BoilerOn);
+  debugLog("Turned Relay off" + System.Boiler.BoilerOn, 2);
+  res.render('status', { System: System });
+});
+
+
+app.get('/BoilerModeProduction', function(req,res){
+  System.Boiler.BoilerMode = "Production";
+  debugLog("Prod Mode: " + System.Boiler.BoilerMode, 2);
+  res.render('status', { System: System });
+});
+app.get('/BoilerModeDebug', function(req,res){
+  System.Boiler.BoilerMode = "Debug";
+  res.render('status', { System: System });
+  debugLog("Debug Mode: " + System.Boiler.BoilerMode, 2);
+});
+
+app.post('/setHeat',function(req,res){
+  System.Zones[0].TempHi = System.Zones[1].TempHi = req.body.tempHi;
+  System.Zones[0].TempLow = System.Zones[1].TempLow = req.body.tempLow;
+
+  // Reset heating cycle
+  UpdateBoilerStatus(false, true);
+  // debugLog("setHigh JSON Data: " , req.body, 2);
+  res.render('status', { System: System });
+});
+
+
+// Show status of Heating system
+app.get('/status', function(req, res){
+  res.render('status', {System: System});
+});
+
+// change this to a better error handler in your code
+// sending stacktrace to users in production is not good
+app.use(function(err, req, res, next) {
+  res.send(err.stack);
+});
+
+http.createServer(app).listen(app.get('port'), function(){
+  debugLog("Express server listening on port " + app.get('port'), 2);
+});
+
+
+// start a timer that runs the callback
+// function every second (1000 ms)
+function updateRelay(state)
+{
+  debugLog("Updating Relay...." + state, 4);
+  // get the current state of the LED
+  var ledState = state;
+  var relayState = !state;
+
+  debugLog("ledState " + ledState + " | relayState: " + relayState, 4);
+  debugLog("Number(ledState): " + Number(ledState), 4);
+  debugLog("BoilerMode: " + System.Boiler.BoilerMode, 4);
+  // write new start to relay and led
+  led.writeSync(Number(ledState));
+  if(System.Boiler.BoilerMode == "Production")
+  {
+    debugLog("updating relay state: " + Number(relayState));
+    relay.writeSync(Number(relayState));
+  }
+  //debugLog("led state: " + ledState, 2);
+  //debugLog("relay state: " + relayState, 2);
+};
+
+function SetAverageTemp()
+{
+  System.AvgTemp = (System.Zones[0].CurTemp + System.Zones[1].CurTemp) / 2;
+  debugLog("AvgTemp = " + System.AvgTemp + " System.Zones[0].CurTemp " + System.Zones[0].CurTemp + " +  System.Zones[1].CurTemp / 2", 2);
+  debugLog("result: " + (System.Zones[0].CurTemp + System.Zones[1].CurTemp) / 2, 2);
+}
+
+function UpdateBoilerStatus(status, force)
+{
+  if((status && !System.Boiler.BoilerOn && System.Boiler.StatusTime < addMinutes(new Date(), -5)) || (status && force))
+  {
+    System.Boiler.BoilerOn = true;
+    debugLog("turning boiler on: " + System.Boiler.BoilerOn, 3);
+    System.Boiler.StatusTime = new Date();
+  }
+  else if(!status && System.Boiler.BoilerOn && System.Boiler.StatusTime < addMinutes(new Date(), -5) || (!status && force))
+  {
+    System.Boiler.BoilerOn = false;
+    debugLog("turning boiler off: " + System.Boiler.BoilerOn, 3);
+    System.Boiler.StatusTime = new Date();
+  }
+  else
+  {
+    debugLog("Update Boiler Else Case.", 3);
+  }
+}
+
+function debugLog(message, debugLevel)
+{
+  if(debugLevel > System.DebugLevel)
+  {
+    console.log(message);
+  }
+}

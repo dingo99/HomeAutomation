@@ -1,0 +1,46 @@
+extends ../layout
+
+block content
+  
+  each Zone in Zones
+    .panel.panel-default
+      .panel-heading
+        H3.panel-title Temp Status
+      .panel-body
+        ul
+          li Current: #{Zone.CurTemp}
+          li Hi: #{Zone.TempHi}
+          li Low: #{Zone.TempLow}
+          li Lumens:   #{Zone.Light}
+          #status
+            if Zone.CallHeat
+              li Heater On
+            else
+              li Heater Off
+  br
+  hr
+  Forms
+  .panel.panel-default
+    .panel-heading
+      H3.panel-title Temp Forms
+    .panel-body
+      form(action="/setHeat" method="post")
+        .form-group.col-xs-12
+          label.col-xs-6.col-md-2 Low Temp
+          .col-xs-6.col-md-2
+            input.form-control(type="text" id="tempLow" name="tempLow" placeholder="High Temp")
+        .form-group.col-xs-12
+          label.col-xs-6.col-md-2 Hi Temp
+          .col-xs-6.col-md-2
+            input.form-control.col-xs-2(type="text" id="tempHi" name="tempHi" placeholder="Low Temp")
+        .form-group.col-xs-12
+          input.form-control(type="submit" id="Submit")
+
+  .panel.panel-default
+    .panel-heading
+      H3.panel-title Temp Links
+    .panel-body
+      a(href='/on') Turn On
+      br
+      a(href='/off') Turn Off
+

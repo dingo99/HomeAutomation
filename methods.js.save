@@ -1,0 +1,42 @@
+// start a timer that runs the callback
+// function every second (1000 ms)
+function updateRelay(state)
+{
+  console.log("Updating Relay....");
+  // get the current state of the LED
+  var ledState = state;
+  var relayState = !state;
+
+  // write new start to relay and led
+  led.writeSync(Number(ledState));
+  if(System.BoilerMode == "Prodution")
+  {
+    relay.writeSync(Number(relayState));
+  }
+  //console.log("led state: " + ledState);
+  //console.log("relay state: " + relayState);
+};
+
+function SetAverageTemp()
+{
+  System.AvgTemp = (System.Zones[0].CurTemp + System.Zones[1].CurTemp) / 2;
+  console.log("AvgTemp = " + System.AvgTemp + " System.Zones[0].CurTemp " + System.Zones[0].CurTemp + " +  System.Zones[1].CurTemp / 2" );
+  console.log("result: " + (System.Zones[0].CurTemp + System.Zones[1].CurTemp) / 2);
+}
+
+function UpdateBoilerStatus(status, force)
+{
+  if((status && !System.Boiler.BoilerOn && System.Boiler.StatusTime < addMinutes(new Date(), -5)) || force)
+  {
+    console.log("turning boiler on");
+    System.Boiler.BoilerOn = true;
+    System.Boiler.StatusTime = new Date();
+  }
+  else if(!status && System.Boiler.BoilerOn && System.Boiler.StatusTime < addMinutes(new Date(), -5) || force)
+  {
+    console.log("turning boiler off");
+    System.Boiler.BoilerOn = false;
+    System.Boiler.StatusTime = new Date();
+  }
+}
+

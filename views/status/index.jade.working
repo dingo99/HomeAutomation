@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+  
+  each Zone in Zones
+    .panel.panel-default
+      .panel-heading
+        H3.panel-title Temp Status
+      .panel-body
+        ul
+          li Current: #{Zone.CurTemp}
