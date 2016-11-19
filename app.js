@@ -69,55 +69,38 @@ app.get('/', function(req, res){
 /*
 custom status page from other project
 */
+var mqtt = require('mqtt')
+var client  = mqtt.connect('mqtt://192.168.1.120')
 
-app.post('/sms', function(req, res){
-  const zone = req.body.zone;
-  const tempf = req.body.tempf;
-  const light = req.body.light;
-  const humidity = req.body.humidity;
-  res.set('Content-Type', 'text/plain')
-  var response = "You sent: z : " + req.body.zone + " t : " + tempf + " l: " + light + " h: " + humidity + " to Express";
-  res.send(response)
+client.on('connect', function () {
+  client.subscribe('sensors')
+  //client.publish('testbutton', 'hello mqtt');
 })
 
-// Posting endpoint for sensor data
-app.post('/data',function(req,res){
-  debugLog("Zone: " + req.body.zone + " | data recieved: " + req.body.tempf + " | Humidity: " + req.body.humidity, 1);
-console.log('request =' + JSON.stringify(req.body))
-
-  // Read sensor data
-  if(req.body.tempf < 50 || req.body.tempf > 90)
+client.on('message', function (topic, message) {
+  // message is Buffer 
+  console.log(message.toString())
+  
+  var obj = JSON.parse(message)
+  var sensor = obj[0];
+  console.log("zone: " + sensor.zone)
+  console.log("temp: " + sensor.tempf)
+  console.log("light: " + sensor.light)
+  
+  // Read temp data
+  if(sensor.tempf < 50 || sensor.tempf > 90)
   {
-      debugLog("Temp from sensor out of range: " + req.body.tempf, 2);
-      return res.send("Temp out of range");
-  }
-  else if(req.body.tempf > 0)
-  {
-    System.Zones[req.body.zone].CurTemp = req.body.tempf;
+      debugLog("Temp from sensor out of range: " + sensor.tempf, 2);
+      return;
   }
   else
-  {
-	res.set('Content-Type', 'text/plain')
-    //var response = "You sent: z : " + req.body.zone + " t : " + tempf + " l: " + light + " h: " + humidity + " to Express";
-	var response = "Data sent to Express zone: " + req.body.zone;
-	return res.send(response);
-  }
-
-//  debugLog("Zone: " + req.body.zone+ " | data recieved: " + req.body.tempf + " | Humidity: " + req.body.humidity, 1);
-
-  System.Zones[req.body.zone].Humidity=req.body.humidity;
-  System.Zones[req.body.zone].Light=req.body.light;
+	System.Zones[sensor.zone].CurTemp = sensor.tempf;
+	
+  System.Zones[sensor.zone].Humidity=sensor.humidity;
+  System.Zones[sensor.zone].Light=sensor.light;
   SetAverageTemp();
 
-  // Debug incoming sensor data
-
-  // Conditions for when to call for heat
-  // if avg temp < temp low && Boiler off  ---- off
-  // OR
-  // avg temp < temp hi && Boiler On
-  // turn on
-  debugLog("avgTmp: "  + System.AvgTemp +  " < zoneHi: " + System.Zones[req.body.zone].TempHi + " && !boiler status: " + !System.Boiler.BoilerOn, 2);
-
+  
   // Get current schedule to compare against the temps read
   System.curSchedule = getCurrentSchedule(System.Schedules);
   if((System.AvgTemp < System.curSchedule.TempHigh) && !System.Boiler.BoilerOn)
@@ -137,11 +120,9 @@ console.log('request =' + JSON.stringify(req.body))
     UpdateBoilerStatus(false);
     debugLog("calling for heat ELSE	: " + System.Boiler.BoilerOn, 6);
   }
-
+  
   updateRelay(System.Boiler.BoilerOn, false);
-
-  return res.send("yes");
-});
+})
 
 app.post('/addSchedule',function(req,res){
   var newSchedule = {};
