@@ -1,4 +1,4 @@
-// Setup relay and indicator light furnace.
+// Setup relay and indicator lig//ht furnace.
 var GPIO = require('onoff').Gpio,
     led = new GPIO(20, 'out');
     relay = new GPIO(21, 'out');
@@ -62,7 +62,9 @@ if (app.get('env') == 'development') {
 
 // Setup Routes
 app.get('/about', routes.about);
-app.get('/', function(req, res){
+app.get('/links', routes.links);
+app.get('/forms', routes.links);
+app.get('/', function (req, res) {
   res.end();
 });
 
@@ -82,7 +84,7 @@ client.on('message', function (topic, message) {
   console.log(message.toString())
   
   var obj = JSON.parse(message)
-  var sensor = obj[0];
+  var sensor = obj;
   console.log("zone: " + sensor.zone)
   console.log("temp: " + sensor.tempf)
   console.log("light: " + sensor.light)
@@ -99,7 +101,6 @@ client.on('message', function (topic, message) {
   System.Zones[sensor.zone].Humidity=sensor.humidity;
   System.Zones[sensor.zone].Light=sensor.light;
   SetAverageTemp();
-
   
   // Get current schedule to compare against the temps read
   System.curSchedule = getCurrentSchedule(System.Schedules);
