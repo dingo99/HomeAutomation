@@ -5,22 +5,6 @@ var GPIO = require('onoff').Gpio,
     led.writeSync(0);
     relay.writeSync(1);
 
-// Setup Util Functions
-function addMinutes(date, minutes) {
-    return new Date(date.getTime() + minutes*60000);
-}
-
-
-// Setup state objects for system
-var User = { "User": "bobdole@gmail.com", "Password": "schwimme1975", "Authorized": false };
-var Boiler = { "BoilerOn": false, "StatusTime": addMinutes(new Date(), -100), BoilerMode: "Debug" };
-var System = { 	"AvgTemp": 68, 
-		"Schedules": [{"TempLow": 67, "TempHigh": 68, "StartTimeHour": 0, "StartTimeMinute": 0}, {"TempLow": 67, "TempHigh": 68, "StartTimeHour": 1, "StartTimeMinute": 0}], 
-		"Boiler": Boiler,
-		"User": User,
-		"DebugLevel": 0,
-		"Zones": [{ "CurTemp": 68, "TempHi": 69, "TempLow": 68, "Light": 10, "Humidity": 33, "CallHeat": false, "ZoneName": "Upstairs", "ZoneNumber": 0 }, 
-	     		  { "CurTemp": 68, "TempHi": 69, "TempLow": 68, "Light": 10, "Humidity": 33, "CallHeat": false, "ZoneName": "Living Room", "ZoneNumber": 1 }] };debugLog(System.Boiler.BoilerMode ,4)
 // Setup expressJS
 /**
  * Module dependencies.
@@ -40,7 +24,23 @@ var express = require('express')
   , bodyParser = require('body-parser')
   , favicon = require('serve-favicon')
   , logger = require('morgan')
+  , Utility = require('./modules/utility')
+  , time = require('time')
   , methodOverride = require('method-override');
+
+// Setup state objects for system
+var User = { "User": "bobdole@gmail.com", "Password": "schwimme1975", "Authorized": false }
+var Boiler = { "BoilerOn": false, "StatusTime": Utility.addMinutes(Utility.getTimeZone(), -100), BoilerMode: "Debug" }
+var System = {
+    "AvgTemp": 68,
+    "Schedules": [{ "TempLow": 67, "TempHigh": 68, "StartTimeHour": 0, "StartTimeMinute": 0 }, { "TempLow": 67, "TempHigh": 68, "StartTimeHour": 1, "StartTimeMinute": 0 }],
+    "Boiler": Boiler,
+    "User": User,
+    "DebugLevel": 0,
+    "Zones": [{ "CurTemp": 68, "Light": 10, "Humidity": 33, "CallHeat": false, "ZoneName": "Nolan's Room", "ZoneNumber": 0 },
+              { "CurTemp": 68, "Light": 10, "Humidity": 33, "CallHeat": false, "ZoneName": "Basement", "ZoneNumber": 1 }]
+}
+debugLog(System.Boiler.BoilerMode, 4)
 
 var app = express();
 
@@ -63,7 +63,7 @@ if (app.get('env') == 'development') {
 // Setup Routes
 app.get('/about', routes.about);
 app.get('/links', routes.links);
-app.get('/forms', routes.links);
+//app.get('/forms', routes.forms);
 app.get('/', function (req, res) {
   res.end();
 });
@@ -157,6 +157,9 @@ app.get('/on',function(req,res){
   res.render('status', {System: System});
 });
 
+app.get('/forms', function (req, res) {
+    res.render('forms', { System: System });
+});
 
 app.get('/off',function(req,res){
 /*
@@ -258,17 +261,18 @@ function SetAverageTemp()
 
 function UpdateBoilerStatus(status, force)
 {
-  if((status && !System.Boiler.BoilerOn && System.Boiler.StatusTime < addMinutes(new Date(), -5)) || (status && force))
+    if((status && !System.Boiler.BoilerOn && System.Boiler.StatusTime < Utility.addMinutes(Utility.getTimeZone(), -5)) || (status && force))
   {
     System.Boiler.BoilerOn = true;
     debugLog("turning boiler on: " + System.Boiler.BoilerOn, 3);
-    System.Boiler.StatusTime = new Date();
+    System.Boiler.StatusTime = Utility.getTimeZone();
+    //System.Boiler.StatusFormatedTime = 
   }
-  else if(!status && System.Boiler.BoilerOn && System.Boiler.StatusTime < addMinutes(new Date(), -5) || (!status && force))
+    else if (!status && System.Boiler.BoilerOn && System.Boiler.StatusTime < Utility.addMinutes(Utility.getTimeZone(), -5) || (!status && force))
   {
     System.Boiler.BoilerOn = false;
     debugLog("turning boiler off: " + System.Boiler.BoilerOn, 3);
-    System.Boiler.StatusTime = new Date();
+    System.Boiler.StatusTime = Utility.getTimeZone();
   }
   else
   {
@@ -299,7 +303,7 @@ app.post('/authorize',function(req,res){
       });
 */
 
-        res.cookie('authorized' , true, {expire : new Date() + 9999});
+      res.cookie('authorized', true, { expire: Utility.getTimeZone() + 9999 });
         res.redirect('/about');
   }
   else
@@ -331,50 +335,26 @@ function getCurrentSchedule(schedules){
   var timeOffset = 4;
   var currentSchedule = schedules[0];
   var arrayLength = schedules.length;
-  var d = new Date();
+  var d = Utility.getTimeZone();
   var hour = d.getHours() - timeOffset;
   var minute = d.getMinutes();
 
   if(hour < 0)
-  {
     hour = 24 - hour;
-  }
 
-  var curTime = ConvertToMinutes(hour, minute);
-  
+  var curTime = Utility.ConvertToMinutes(hour, minute);
 
   currentSchedule = schedules[0];
   console.log("date hour: " + hour);
   for(i=0;i<arrayLength;i++)
   {
-    var scheduleTime = ConvertToMinutes(schedules[i].StartTimeHour, schedules[i].StartTimeMinute);
+    var scheduleTime = Utility.ConvertToMinutes(schedules[i].StartTimeHour, schedules[i].StartTimeMinute);
 
-    if(scheduleTime >= curTime){
+    if(scheduleTime >= curTime)
       break;
-    }
-    else
-      currentSchedule = schedules[i];
-    }
-
-/*
-    if(schedules[i].StartTimeHour >= hour){
-      break;
-    }
-    if(schedules[i].StartTimeHour == hour && schedules[i].StartTimeMinute >= minute)
-    {
-      break;
-    }
     else
       currentSchedule = schedules[i];
   }
-*/
 
   return currentSchedule;
-}
-
-function ConvertToMinutes(hours, minutes)
-{
-  var timeMinutes = minutes;
-  timeMinutes += hours * 60;
-  return timeMinutes;
 }

@@ -14,7 +14,8 @@
     "path": "^0.12.7",
     "routes": "^2.1.0",
     "serve-favicon": "^2.3.0",
-    "stylus": "^0.53.0"
+    "stylus": "^0.53.0",
+    "time": "^0.11.4"
   },
   "engines": {
     "node": "0.10.30",
