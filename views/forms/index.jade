@@ -6,4 +6,19 @@ block content
       H3.panel-title Temp Forms
     .panel-body
       form(action="/setHeat")
-        input(type="text" value=#{status.CurTemp})
+        .row
+          .col-xs-12
+            label.col-xs-6 Heat
+            input.form-control(type="text" value="#{System.AvgTemp}", id="temp", name="temp", placeholder="Temp")
+        .row
+          .col-xs-6
+            label.col-xs-6 Start Time Hour
+            input.col-xs-6.form-control(type="text", id="StartTimeHour", name="StartTimeHour", placeholder="Start Hour 01")
+          .col-xs-6
+            label.col-xs-6 Start Time Minute
+            input.col-xs-6.form-control(type="text", id="StartTimeMinute", name="StartTimeMinute", placeholder="Start Minute 01")
+		.clearfix
+        .row(style="margin-top:1em;")
+          .col-xs-12
+            input.form-control(type="submit", value="Submit")
+            

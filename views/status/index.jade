@@ -11,8 +11,6 @@ block content
           .panel-body
             ul
               li Current: #{Zone.CurTemp}
-              li Hi: #{Zone.TempHi}
-              li Low: #{Zone.TempLow}
               li Lumens:   #{Zone.Light}
               li Humidity: #{Zone.Humidity}
   
@@ -43,7 +41,7 @@ block content
         .panel-body
           ul
             li Boiler On:   #{System.Boiler.BoilerOn}
-            li Status Time: #{System.Boiler.StatusTime}
+            li Status Time: #{System.Boiler.StatusTimeDisplay}
             li Boiler Mode: #{System.Boiler.BoilerMode}
 
     .col-xs-12.col-md-4
@@ -69,12 +67,12 @@ block content
         .panel-body
           form(action="/setHeat" method="post")
             .form-group.col-xs-12
-              label.col-xs-6.col-md-6 Low Temp
-              .col-xs-6.col-md-6
+              label.col-xs-6 Low Temp
+              .col-xs-6
                 input.form-control(type="text" id="tempLow" name="tempLow" placeholder="Low Temp")
             .form-group.col-xs-12
-              label.col-xs-6.col-md-6 High Temp
-              .col-xs-6.col-md-6
+              label.col-xs-6 High Temp
+              .col-xs-6
                 input.form-control.col-xs-4.col-md-4(type="text" id="tempHi" name="tempHi" placeholder="High Temp")
             .form-group.col-xs-12
               input.form-control(type="submit" id="Submit")

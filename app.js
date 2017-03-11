@@ -6,7 +6,7 @@ var GPIO = require('onoff').Gpio,
     relay.writeSync(1);
 
 // Setup expressJS
-/**
+/*
  * Module dependencies.
  */
 
@@ -30,10 +30,10 @@ var express = require('express')
 
 // Setup state objects for system
 var User = { "User": "bobdole@gmail.com", "Password": "schwimme1975", "Authorized": false }
-var Boiler = { "BoilerOn": false, "StatusTime": Utility.addMinutes(Utility.getTimeZone(), -100), BoilerMode: "Debug" }
+var Boiler = { "BoilerOn": false, "StatusTime": Utility.addMinutes(Utility.getTimeZone(), -100), "StatusTimeDisplay": Utility.getTimeZone(), BoilerMode: "Debug" }
 var System = {
-    "AvgTemp": 68,
-    "Schedules": [{ "TempLow": 67, "TempHigh": 68, "StartTimeHour": 0, "StartTimeMinute": 0 }, { "TempLow": 67, "TempHigh": 68, "StartTimeHour": 1, "StartTimeMinute": 0 }],
+    "AvgTemp": 71,
+    "Schedules": [{ "TempLow": 71, "TempHigh": 72, "StartTimeHour": 0, "StartTimeMinute": 0 }, { "TempLow": 71, "TempHigh": 72, "StartTimeHour": 1, "StartTimeMinute": 0 }],
     "Boiler": Boiler,
     "User": User,
     "DebugLevel": 0,
@@ -76,10 +76,24 @@ var client  = mqtt.connect('mqtt://192.168.1.120')
 
 client.on('connect', function () {
   client.subscribe('sensors')
-  //client.publish('testbutton', 'hello mqtt');
 })
 
+client.publish('boot', 'Raspi Listening');
+
 client.on('message', function (topic, message) {
+	if(message == "on")
+	{
+		console.log("message - " + message);
+		led.writeSync(1);
+		relay.writeSync(1);
+	}
+	else if(message == "off")
+	{
+		console.log("message - " + message);
+		led.writeSync(0);
+		relay.writeSync(0);
+	}
+	else {
   // message is Buffer 
   console.log(message.toString())
   
@@ -108,6 +122,7 @@ client.on('message', function (topic, message) {
   {
     debugLog("avgTmp: "  + System.AvgTemp +  " > zoneHi: " + System.curSchedule.TempHigh + " && boiler status: " + System.Boiler.BoilerOn, 6);
     UpdateBoilerStatus(true);
+	System.Boiler.StatusTimeDisplay = Utility.getTimeZone();
     debugLog("calling for heat On: " + System.Boiler.BoilerOn, 6);
   }
   else if((System.AvgTemp > System.curSchedule.TempHigh) && System.Boiler.BoilerOn)
@@ -123,6 +138,7 @@ client.on('message', function (topic, message) {
   }
   
   updateRelay(System.Boiler.BoilerOn, false);
+	}
 })
 
 app.post('/addSchedule',function(req,res){
@@ -266,6 +282,7 @@ function UpdateBoilerStatus(status, force)
     System.Boiler.BoilerOn = true;
     debugLog("turning boiler on: " + System.Boiler.BoilerOn, 3);
     System.Boiler.StatusTime = Utility.getTimeZone();
+	client.publish('boot', 'Turning Boiler On');
     //System.Boiler.StatusFormatedTime = 
   }
     else if (!status && System.Boiler.BoilerOn && System.Boiler.StatusTime < Utility.addMinutes(Utility.getTimeZone(), -5) || (!status && force))
@@ -273,6 +290,7 @@ function UpdateBoilerStatus(status, force)
     System.Boiler.BoilerOn = false;
     debugLog("turning boiler off: " + System.Boiler.BoilerOn, 3);
     System.Boiler.StatusTime = Utility.getTimeZone();
+	client.publish('boot', 'Turning Boiler Off');
   }
   else
   {

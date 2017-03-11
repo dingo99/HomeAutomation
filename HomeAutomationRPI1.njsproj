@@ -1,0 +1,412 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1dd07af4-05bf-4c0e-9fc0-b8b57b6985de}</ProjectGuid>
+    <ProjectHome />
+    <ProjectView>ShowAllFiles</ProjectView>
+    <StartupFile>app.js</StartupFile>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <ItemGroup>
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Compile Include="app.js" />
+    <Compile Include="routes\index.js" />
+    <Content Include="views\index.jade" />
+    <Content Include="views\header.jade" />
+    <Content Include="views\layout.jade" />
+    <Content Include="views\footer.jade" />
+    <Content Include="views\about.jade" />
+    <Compile Include="modules\BoilerManager.js" />
+    <Compile Include="modules\utility.js" />
+    <Compile Include="modules\user.js" />
+    <Compile Include="modules\system.js" />
+    <Content Include="public\images\favicon.png" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.svg" />
+    <Compile Include="public\scripts\bootstrap.min.js" />
+    <Compile Include="public\scripts\main.js" />
+    <Content Include="public\css\style.css" />
+    <Content Include="public\css\bootstrap.min.css" />
+    <Content Include="public\css\bootstrap-theme.min.css" />
+    <Content Include="public\css\style.styl" />
+    <Content Include="views\links\index.jade" />
+    <Content Include="views\status\index.jade" />
+    <Content Include="views\forms\index.jade" />
+    <Content Include="views\test\test.html" />
+    <Content Include="views\log\index.jade" />
+    <Content Include="modules_bak\node_modules32\routes\package.json" />
+    <Content Include="modules_bak\node_modules32\routes\README.md" />
+    <Compile Include="modules_bak\node_modules32\routes\index.js" />
+    <Content Include="modules_bak\node_modules32\path\package.json" />
+    <Content Include="modules_bak\node_modules32\path\README.md" />
+    <Compile Include="modules_bak\node_modules32\path\path.js" />
+    <Content Include="modules_bak\node_modules32\stylus\package.json" />
+    <Content Include="modules_bak\node_modules32\stylus\History.md" />
+    <Content Include="modules_bak\node_modules32\stylus\Readme.md" />
+    <Content Include="modules_bak\node_modules32\stylus\Contributing.md" />
+    <Content Include="modules_bak\node_modules32\stylus\Code_of_Conduct.md" />
+    <Compile Include="modules_bak\node_modules32\stylus\index.js" />
+    <Content Include="modules_bak\node_modules32\morgan\package.json" />
+    <Content Include="modules_bak\node_modules32\morgan\HISTORY.md" />
+    <Content Include="modules_bak\node_modules32\morgan\README.md" />
+    <Compile Include="modules_bak\node_modules32\morgan\index.js" />
+    <Content Include="modules_bak\node_modules32\jade\block-code.html" />
+    <Content Include="modules_bak\node_modules32\jade\component.json" />
+    <Content Include="modules_bak\node_modules32\jade\.release.json" />
+    <Content Include="modules_bak\node_modules32\jade\package.json" />
+    <Content Include="modules_bak\node_modules32\jade\Readme_zh-cn.md" />
+    <Content Include="modules_bak\node_modules32\jade\History.md" />
+    <Content Include="modules_bak\node_modules32\jade\README.md" />
+    <Compile Include="modules_bak\node_modules32\jade\jade.js" />
+    <Compile Include="modules_bak\node_modules32\jade\runtime.js" />
+    <Compile Include="modules_bak\node_modules32\jade\release.js" />
+    <Content Include="modules_bak\node_modules32\method-override\package.json" />
+    <Content Include="modules_bak\node_modules32\method-override\HISTORY.md" />
+    <Content Include="modules_bak\node_modules32\method-override\README.md" />
+    <Compile Include="modules_bak\node_modules32\method-override\index.js" />
+    <Content Include="modules_bak\node_modules32\onoff\package.json" />
+    <Content Include="modules_bak\node_modules32\onoff\History.md" />
+    <Content Include="modules_bak\node_modules32\onoff\README.md" />
+    <Compile Include="modules_bak\node_modules32\onoff\onoff.js" />
+    <Content Include="modules_bak\node_modules32\body-parser\package.json" />
+    <Content Include="modules_bak\node_modules32\body-parser\HISTORY.md" />
+    <Content Include="modules_bak\node_modules32\body-parser\README.md" />
+    <Compile Include="modules_bak\node_modules32\body-parser\index.js" />
+    <Content Include="modules_bak\node_modules32\epoll\package.json" />
+    <Content Include="modules_bak\node_modules32\epoll\History.md" />
+    <Content Include="modules_bak\node_modules32\epoll\README.md" />
+    <Compile Include="modules_bak\node_modules32\epoll\epoll.js" />
+    <Content Include="modules_bak\node_modules32\express\package.json" />
+    <Content Include="modules_bak\node_modules32\express\History.md" />
+    <Content Include="modules_bak\node_modules32\express\Readme.md" />
+    <Compile Include="modules_bak\node_modules32\express\index.js" />
+    <Content Include="modules_bak\node_modules32\http\package.json" />
+    <Content Include="modules_bak\node_modules32\serve-favicon\package.json" />
+    <Content Include="modules_bak\node_modules32\serve-favicon\HISTORY.md" />
+    <Content Include="modules_bak\node_modules32\serve-favicon\README.md" />
+    <Compile Include="modules_bak\node_modules32\serve-favicon\index.js" />
+    <Compile Include="modules_bak\node_modules32\routes\dist\routes.js" />
+    <Compile Include="modules_bak\node_modules32\routes\test\example.js" />
+    <Compile Include="modules_bak\node_modules32\routes\test\test.js" />
+    <Compile Include="modules_bak\node_modules32\routes\test\next.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\middleware.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\parser.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\lexer.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\units.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\colors.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\browserify.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\utils.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\selector-parser.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\stylus.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\renderer.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\token.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\errors.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\stack\scope.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\stack\index.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\stack\frame.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\cache\fs.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\cache\null.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\cache\index.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\cache\memory.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\unit.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\atblock.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\media.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\atrule.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\null.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\query-list.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\group.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\unaryop.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\binop.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\hsla.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\call.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\query.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\boolean.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\supports.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\return.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\charset.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\import.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\property.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\ident.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\extend.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\node.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\namespace.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\index.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\ternary.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\arguments.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\comment.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\if.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\each.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\expression.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\member.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\block.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\keyframes.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\literal.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\root.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\selector.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\function.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\params.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\feature.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\string.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\object.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\nodes\rgba.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\convert\css.js" />
+    <Content Include="modules_bak\node_modules32\stylus\lib\functions\index.styl" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\red.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\blend.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\unit.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\range.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\convert.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\unquote.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\trace.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\add-property.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\current-media.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\match.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\merge.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\pathjoin.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\hsla.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\substr.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\pop.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\dirname.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\extname.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\hsl.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\contrast.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\blue.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\math-prop.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\selector-exists.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\warn.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\clone.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\opposite-position.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\tan.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\prefix-classes.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\p.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\hue.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\length.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\push.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\use.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\replace.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\split.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\selectors.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\index.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\unshift.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\list-separator.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\json.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\adjust.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\green.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\saturation.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\operate.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\type.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\remove.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\image.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\luminosity.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\alpha.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\base-convert.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\rgb.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\define.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\basename.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\math.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\lightness.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\shift.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\resolver.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\lookup.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\component.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\selector.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\s.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\url.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\image-size.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\transparentify.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\error.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\functions\rgba.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\visitor\evaluator.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\visitor\sourcemapper.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\visitor\index.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\visitor\deps-resolver.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\visitor\compiler.js" />
+    <Compile Include="modules_bak\node_modules32\stylus\lib\visitor\normalizer.js" />
+    <Compile Include="modules_bak\node_modules32\jade\bin\jade.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\parser.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\lexer.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\filters-client.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\utils.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\runtime.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\filters.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\inline-tags.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\index.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\compiler.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\doctypes.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\attrs.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\block-comment.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\mixin.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\code.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\text.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\filter.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\node.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\tag.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\index.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\comment.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\case.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\each.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\block.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\literal.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\mixin-block.js" />
+    <Compile Include="modules_bak\node_modules32\jade\lib\nodes\doctype.js" />
+    <Content Include="modules_bak\node_modules32\onoff\examples\light-switch.png" />
+    <Compile Include="modules_bak\node_modules32\onoff\examples\light-switch.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\examples\wait-for-interrupt.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\examples\blink-led.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\examples\blink-led-async.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\test\configure-and-check-output.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\test\export-many-times.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\test\performance-interrupt.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\test\wait-for-many-interrupts.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\test\performance-sync.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\test\wait-for-interrupt.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\test\many-interrupts.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\test\configure-and-check-input.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\test\blink-led.js" />
+    <Compile Include="modules_bak\node_modules32\onoff\test\performance-async.js" />
+    <Compile Include="modules_bak\node_modules32\body-parser\lib\read.js" />
+    <Compile Include="modules_bak\node_modules32\body-parser\lib\types\raw.js" />
+    <Compile Include="modules_bak\node_modules32\body-parser\lib\types\text.js" />
+    <Compile Include="modules_bak\node_modules32\body-parser\lib\types\json.js" />
+    <Compile Include="modules_bak\node_modules32\body-parser\lib\types\urlencoded.js" />
+    <Compile Include="modules_bak\node_modules32\epoll\test\no-gc-allowed.js" />
+    <Compile Include="modules_bak\node_modules32\epoll\test\verify-events.js" />
+    <Compile Include="modules_bak\node_modules32\epoll\test\performance-check.js" />
+    <Compile Include="modules_bak\node_modules32\epoll\test\brute-force-leak-check.js" />
+    <Compile Include="modules_bak\node_modules32\epoll\test\util.js" />
+    <Compile Include="modules_bak\node_modules32\epoll\test\closed.js" />
+    <Compile Include="modules_bak\node_modules32\epoll\test\two-shot.js" />
+    <Compile Include="modules_bak\node_modules32\epoll\test\one-shot.js" />
+    <Compile Include="modules_bak\node_modules32\epoll\test\do-almost-nothing.js" />
+    <Compile Include="modules_bak\node_modules32\epoll\test\do-nothing.js" />
+    <Compile Include="modules_bak\node_modules32\epoll\example\watch-button\watch-button.js" />
+    <Compile Include="modules_bak\node_modules32\epoll\example\interrupts-per-second\interrupts-per-second.js" />
+    <Compile Include="modules_bak\node_modules32\express\lib\application.js" />
+    <Compile Include="modules_bak\node_modules32\express\lib\express.js" />
+    <Compile Include="modules_bak\node_modules32\express\lib\utils.js" />
+    <Compile Include="modules_bak\node_modules32\express\lib\response.js" />
+    <Compile Include="modules_bak\node_modules32\express\lib\request.js" />
+    <Compile Include="modules_bak\node_modules32\express\lib\view.js" />
+    <Compile Include="modules_bak\node_modules32\express\lib\middleware\query.js" />
+    <Compile Include="modules_bak\node_modules32\express\lib\middleware\init.js" />
+    <Compile Include="modules_bak\node_modules32\express\lib\router\route.js" />
+    <Compile Include="modules_bak\node_modules32\express\lib\router\layer.js" />
+    <Compile Include="modules_bak\node_modules32\express\lib\router\index.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="modules" />
+    <Folder Include="modules_bak" />
+    <Folder Include="modules_bak\node_modules32" />
+    <Folder Include="modules_bak\node_modules32\body-parser" />
+    <Folder Include="modules_bak\node_modules32\body-parser\lib" />
+    <Folder Include="modules_bak\node_modules32\body-parser\lib\types" />
+    <Folder Include="modules_bak\node_modules32\epoll" />
+    <Folder Include="modules_bak\node_modules32\epoll\build" />
+    <Folder Include="modules_bak\node_modules32\epoll\build\Release" />
+    <Folder Include="modules_bak\node_modules32\epoll\build\Release\obj.target" />
+    <Folder Include="modules_bak\node_modules32\epoll\build\Release\obj.target\epoll" />
+    <Folder Include="modules_bak\node_modules32\epoll\build\Release\obj.target\epoll\src" />
+    <Folder Include="modules_bak\node_modules32\epoll\example" />
+    <Folder Include="modules_bak\node_modules32\epoll\example\interrupts-per-second" />
+    <Folder Include="modules_bak\node_modules32\epoll\example\watch-button" />
+    <Folder Include="modules_bak\node_modules32\epoll\src" />
+    <Folder Include="modules_bak\node_modules32\epoll\test" />
+    <Folder Include="modules_bak\node_modules32\express" />
+    <Folder Include="modules_bak\node_modules32\express\lib" />
+    <Folder Include="modules_bak\node_modules32\express\lib\middleware" />
+    <Folder Include="modules_bak\node_modules32\express\lib\router" />
+    <Folder Include="modules_bak\node_modules32\http" />
+    <Folder Include="modules_bak\node_modules32\jade" />
+    <Folder Include="modules_bak\node_modules32\jade\bin" />
+    <Folder Include="modules_bak\node_modules32\jade\lib" />
+    <Folder Include="modules_bak\node_modules32\jade\lib\nodes" />
+    <Folder Include="modules_bak\node_modules32\method-override" />
+    <Folder Include="modules_bak\node_modules32\morgan" />
+    <Folder Include="modules_bak\node_modules32\onoff" />
+    <Folder Include="modules_bak\node_modules32\onoff\examples" />
+    <Folder Include="modules_bak\node_modules32\onoff\test" />
+    <Folder Include="modules_bak\node_modules32\path" />
+    <Folder Include="modules_bak\node_modules32\routes" />
+    <Folder Include="modules_bak\node_modules32\routes\dist" />
+    <Folder Include="modules_bak\node_modules32\routes\test" />
+    <Folder Include="modules_bak\node_modules32\serve-favicon" />
+    <Folder Include="modules_bak\node_modules32\stylus" />
+    <Folder Include="modules_bak\node_modules32\stylus\bin" />
+    <Folder Include="modules_bak\node_modules32\stylus\lib" />
+    <Folder Include="modules_bak\node_modules32\stylus\lib\cache" />
+    <Folder Include="modules_bak\node_modules32\stylus\lib\convert" />
+    <Folder Include="modules_bak\node_modules32\stylus\lib\functions" />
+    <Folder Include="modules_bak\node_modules32\stylus\lib\nodes" />
+    <Folder Include="modules_bak\node_modules32\stylus\lib\stack" />
+    <Folder Include="modules_bak\node_modules32\stylus\lib\visitor" />
+    <Folder Include="public" />
+    <Folder Include="public\css" />
+    <Folder Include="public\fonts" />
+    <Folder Include="public\images" />
+    <Folder Include="public\scripts" />
+    <Folder Include="routes" />
+    <Folder Include="typings\" />
+    <Folder Include="typings\globals\" />
+    <Folder Include="typings\globals\node\" />
+    <Folder Include="views" />
+    <Folder Include="views\forms" />
+    <Folder Include="views\links" />
+    <Folder Include="views\log" />
+    <Folder Include="views\status" />
+    <Folder Include="views\test" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
+    <TypeScriptCompile Include="typings\index.d.ts" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
