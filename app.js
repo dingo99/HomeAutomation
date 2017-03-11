@@ -72,7 +72,7 @@ app.get('/', function (req, res) {
 custom status page from other project
 */
 var mqtt = require('mqtt')
-var client  = mqtt.connect('mqtt://192.168.1.120')
+var client  = mqtt.connect('mqtt://localhost')
 
 client.on('connect', function () {
   client.subscribe('sensors')
