@@ -33,7 +33,7 @@ var User = { "User": "bobdole@gmail.com", "Password": "schwimme1975", "Authorize
 var Boiler = { "BoilerOn": false, "StatusTime": Utility.addMinutes(Utility.getTimeZone(), -100), "StatusTimeDisplay": Utility.getTimeZone(), BoilerMode: "Debug" }
 var System = {
     "AvgTemp": 71,
-    "Schedules": [{ "TempLow": 71, "TempHigh": 72, "StartTimeHour": 0, "StartTimeMinute": 0 }, { "TempLow": 71, "TempHigh": 72, "StartTimeHour": 1, "StartTimeMinute": 0 }],
+    "Schedules": [{ "Temp": 71, "StartTimeHour": 0, "StartTimeMinute": 0 }, { "Temp": 71, "StartTimeHour": 1, "StartTimeMinute": 0 }],
     "Boiler": Boiler,
     "User": User,
     "DebugLevel": 0,
@@ -118,16 +118,16 @@ client.on('message', function (topic, message) {
   
   // Get current schedule to compare against the temps read
   System.curSchedule = getCurrentSchedule(System.Schedules);
-  if((System.AvgTemp < System.curSchedule.TempHigh) && !System.Boiler.BoilerOn)
+  if((System.AvgTemp < System.curSchedule.Temp) && !System.Boiler.BoilerOn)
   {
-    debugLog("avgTmp: "  + System.AvgTemp +  " > zoneHi: " + System.curSchedule.TempHigh + " && boiler status: " + System.Boiler.BoilerOn, 6);
+    debugLog("avgTmp: "  + System.AvgTemp +  " > zoneHi: " + System.curSchedule.Temp + " && boiler status: " + System.Boiler.BoilerOn, 6);
     UpdateBoilerStatus(true);
 	System.Boiler.StatusTimeDisplay = Utility.getTimeZone();
     debugLog("calling for heat On: " + System.Boiler.BoilerOn, 6);
   }
-  else if((System.AvgTemp > System.curSchedule.TempHigh) && System.Boiler.BoilerOn)
+  else if((System.AvgTemp > System.curSchedule.Temp) && System.Boiler.BoilerOn)
   {
-    debugLog("avgTmp: "  + System.AvgTemp +  " > zoneHi: " + System.curSchedule.TempHigh + " && boiler status: " + System.Boiler.BoilerOn, 6);
+    debugLog("avgTmp: "  + System.AvgTemp +  " > zoneHi: " + System.curSchedule.Temp + " && boiler status: " + System.Boiler.BoilerOn, 6);
     UpdateBoilerStatus(false);
     debugLog("calling for heat Off: " + System.Boiler.BoilerOn, 6);
   }
@@ -143,8 +143,7 @@ client.on('message', function (topic, message) {
 
 app.post('/addSchedule',function(req,res){
   var newSchedule = {};
-  newSchedule.TempLow = req.body.TempLow;
-  newSchedule.TempHigh = req.body.TempHigh;
+  newSchedule.Temp = req.body.Temp;
   newSchedule.StartTimeHour = req.body.StartTimeHour;
   newSchedule.StartTimeMinute = req.body.StartTimeMinute;
   System.Schedules.push(newSchedule);
